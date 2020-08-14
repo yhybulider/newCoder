@@ -5,14 +5,17 @@ import com.whllow.community.Dao.UserMapper;
 import com.whllow.community.entity.DiscussPost;
 import com.whllow.community.entity.User;
 import com.whllow.community.service.AppServer;
+import com.whllow.community.util.MailClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
@@ -207,6 +210,58 @@ public class appController {
         return list;
     }
 
+    @Autowired
+    private MailClient mailClient;
+
+    @RequestMapping("/sendMail")
+    public String send(Map<String,String> map){
+        mailClient.sendMail("1342346379@qq.com","test","JavaEmailSend");
+        map.put("username","haha");
+        return "/mail/demo";
+    }
+
+    @RequestMapping("/SetCookies")
+    @ResponseBody
+    public String SetCookies(HttpServletResponse response){
+
+        //创建一个cookie，一个cookie只有一个键值对
+        Cookie cookie = new Cookie("code",UUID.randomUUID().toString());
+        //设置什么样式的请求才能获取cookie
+        cookie.setPath("/community/hello");
+        //设置cookie最大生存时间
+        cookie.setMaxAge(60*10);
+        //向响应头添加cookie
+        response.addCookie(cookie);
+
+        return "succeed in Setting";
+    }
+
+    @RequestMapping(path = "/GetCookies",method = RequestMethod.GET)
+    @ResponseBody
+     public String GetCookies(@CookieValue("code") String code)
+    {
+        System.out.println(code);
+        return code;
+    }
+
+    @RequestMapping(path = "/SetSession",method = RequestMethod.GET)
+    @ResponseBody
+    public String SetSession(HttpSession session){
+        session.setAttribute("id",11);
+        session.setAttribute("name","test");
+        return "succeed in set session";
+    }
+
+
+
+    @RequestMapping(path = "/GetSession",method = RequestMethod.GET)
+    @ResponseBody
+    public String GetSession(HttpSession session)
+    {
+        System.out.println(session.getAttribute("id"));
+        System.out.println(session.getAttribute("name"));
+        return "succeed in get session";
+    }
 
 
 }
