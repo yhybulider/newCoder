@@ -48,6 +48,7 @@ public class LoginController implements CommunityConstant {
 
     @RequestMapping(path = "/login" ,method = RequestMethod.GET)
     public String getLoginPage(){
+
         return "site/login";
     }
 
