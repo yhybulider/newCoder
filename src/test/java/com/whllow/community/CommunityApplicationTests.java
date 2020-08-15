@@ -1,9 +1,6 @@
 package com.whllow.community;
 
-import com.whllow.community.Dao.UserMapper;
-import com.whllow.community.Dao.hlloDao;
-import com.whllow.community.Dao.hlloMyBaitsDao;
-import com.whllow.community.entity.User;
+import com.whllow.community.dao.hlloDao;
 import com.whllow.community.service.AppServer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.BeansException;
@@ -14,7 +11,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.test.context.ContextConfiguration;
 
-import javax.xml.crypto.Data;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 

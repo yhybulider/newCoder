@@ -1,8 +1,7 @@
 package com.whllow.community.service;
 
-import com.whllow.community.Dao.hlloDao;
+import com.whllow.community.dao.hlloDao;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;

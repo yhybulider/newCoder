@@ -1,6 +1,6 @@
 package com.whllow.community.service;
 
-import com.whllow.community.Dao.DiscussPostMapper;
+import com.whllow.community.dao.DiscussPostMapper;
 import com.whllow.community.entity.DiscussPost;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

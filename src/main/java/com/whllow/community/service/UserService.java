@@ -1,7 +1,7 @@
 package com.whllow.community.service;
 
-import com.whllow.community.Dao.LoginTicketMapper;
-import com.whllow.community.Dao.UserMapper;
+import com.whllow.community.dao.LoginTicketMapper;
+import com.whllow.community.dao.UserMapper;
 import com.whllow.community.entity.CommunityConstant;
 import com.whllow.community.entity.LoginTicket;
 import com.whllow.community.entity.User;

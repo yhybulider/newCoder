@@ -1,6 +1,6 @@
 package com.whllow.community;
 
-import com.whllow.community.Dao.UserMapper;
+import com.whllow.community.dao.UserMapper;
 import com.whllow.community.entity.User;
 import org.junit.jupiter.api.Test;
 

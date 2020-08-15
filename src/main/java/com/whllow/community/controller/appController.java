@@ -1,15 +1,14 @@
 package com.whllow.community.controller;
 
-import com.whllow.community.Dao.DiscussPostMapper;
-import com.whllow.community.Dao.LoginTicketMapper;
-import com.whllow.community.Dao.UserMapper;
+import com.whllow.community.dao.DiscussPostMapper;
+import com.whllow.community.dao.LoginTicketMapper;
+import com.whllow.community.dao.UserMapper;
 import com.whllow.community.entity.DiscussPost;
 import com.whllow.community.entity.LoginTicket;
 import com.whllow.community.entity.User;
 import com.whllow.community.service.AppServer;
 import com.whllow.community.util.MailClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
