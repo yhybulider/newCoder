@@ -15,7 +15,7 @@
 
 
 ## 目录文件夹介绍
-
+只留下一个文件夹
 
 
 ## 技术和工具介绍
@@ -35,3 +35,5 @@ Spring security、spring actuator
 应用服务器：apache tomacat
 
 集成开发工具：idea
+
+数据库工具：Navicat
