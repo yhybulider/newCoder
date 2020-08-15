@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+// 充当邮件发送的客户端
 
 @Component
 public class MailClient {
@@ -19,7 +20,7 @@ public class MailClient {
 
     @Autowired
     private JavaMailSender mailSender;
-
+// 使用的是网易的邮箱
     @Value("${spring.mail.username}")
     private String from;
 
@@ -30,7 +31,9 @@ public class MailClient {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message);
+            //发件人
             mimeMessageHelper.setFrom(from);
+            //收件人
             mimeMessageHelper.setTo(to);
             mimeMessageHelper.setSubject(subject);
             mimeMessageHelper.setText(content,true);

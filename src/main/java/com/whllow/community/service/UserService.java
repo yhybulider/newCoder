@@ -96,7 +96,7 @@ public class UserService implements CommunityConstant {
 
         return map;
     }
-
+//激活码查询，错或者对都应该有状态码返回
     public int activation(int userId,String code){
         User user = userMapper.selectById(userId);
         if(user.getStatus()==1){
