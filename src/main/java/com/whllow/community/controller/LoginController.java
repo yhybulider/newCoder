@@ -57,7 +57,7 @@ public class LoginController implements CommunityConstant {
         Map<String,Object> map = userService.register(user);
         if(map==null||map.isEmpty()){
                 model.addAttribute("msg","你已经注册成功，稍后有一封邮件发送到你的邮箱中，请尽快激活");
-                model.addAttribute("target","/Mybaits/index");
+                model.addAttribute("target","/index");
                 return "/site/operate-result";
         }else{
             model.addAttribute("userNameMsg",map.get("userNameMsg"));
@@ -77,10 +77,10 @@ public class LoginController implements CommunityConstant {
             model.addAttribute("target","/login");
         }else if(result==CommunityConstant.ACTIVATION_REPEAT){
             model.addAttribute("msg","激活失败，该账号已经激活了");
-            model.addAttribute("target","/Mybaits/index");
+            model.addAttribute("target","/index");
         }else{
             model.addAttribute("msg","激活失败，激活码有误");
-            model.addAttribute("target","/Mybaits/index");
+            model.addAttribute("target","/index");
         }
         return "/site/operate-result";
     }
@@ -123,7 +123,7 @@ public class LoginController implements CommunityConstant {
             cookie.setPath(contextPath);
             cookie.setMaxAge(expiredSeconds);
             response.addCookie(cookie);
-            return "redirect:/Mybaits/index";
+            return "redirect:/index";
         }else{
             model.addAttribute("userNameMsg",map.get("userNameMsg"));
             model.addAttribute("passwordMsg",map.get("passwordMsg"));

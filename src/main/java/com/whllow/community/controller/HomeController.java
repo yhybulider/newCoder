@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/Mybaits")
 public class HomeController {
 
     @Autowired
@@ -32,7 +31,7 @@ public class HomeController {
     public String getIndexPages(Model model, Page page){
 
         //page是SpringMVC自动实例化，并将注入model中
-        page.setPath("/Mybaits/index");
+        page.setPath("/index");
         page.setRows(discussPostServer.FindDiscussPostRows(0));
 
         System.out.println("offset"+":"+page.getOffset());
