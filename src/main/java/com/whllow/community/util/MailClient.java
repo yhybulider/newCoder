@@ -15,19 +15,17 @@ import javax.mail.internet.MimeMessage;
 
 @Component
 public class MailClient {
-
+    // 记录日志
     private static final Logger logger = LoggerFactory.getLogger(MailClient.class);
 
     @Autowired
     private JavaMailSender mailSender;
-// 使用的是网易的邮箱
+    // 使用的是网易的邮箱
     @Value("${spring.mail.username}")
     private String from;
 
 
-    public void sendMail(String to,String subject,String content){
-
-
+    public void sendMail(String to, String subject, String content) {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message);
@@ -36,16 +34,12 @@ public class MailClient {
             //收件人
             mimeMessageHelper.setTo(to);
             mimeMessageHelper.setSubject(subject);
-            mimeMessageHelper.setText(content,true);
+            mimeMessageHelper.setText(content, true);
             mailSender.send(mimeMessageHelper.getMimeMessage());
         } catch (MessagingException e) {
             logger.error("发送失败：" + e.getMessage());
         }
-
-
     }
-
-
 
 
 }
