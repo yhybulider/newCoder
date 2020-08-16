@@ -2,8 +2,10 @@ package com.whllow.community.dao;
 
 import com.whllow.community.entity.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Component;
 
 @Mapper
+@Component
 public interface UserMapper {
 
     User selectById(int id);
