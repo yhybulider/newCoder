@@ -6,6 +6,7 @@ import com.whllow.community.entity.CommunityConstant;
 import com.whllow.community.entity.LoginTicket;
 import com.whllow.community.entity.User;
 import com.whllow.community.util.CommunityUtil;
+import com.whllow.community.util.HostHolder;
 import com.whllow.community.util.MailClient;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,12 @@ import java.util.Random;
 
 @Service
 public class UserService implements CommunityConstant {
+
+
+
+
 // dao层对象
+
     @Autowired
     private UserMapper userMapper;
 // 邮件客户端
@@ -162,8 +168,22 @@ public class UserService implements CommunityConstant {
         return loginTicketMapper.selectByTicket(ticket);
     }
 
+    public int uploadHeader(int userId,String headerUrl){
+        return userMapper.updateHeader(userId,headerUrl);
+    }
+
+
+    public int updatePassword(int userId,String password){
+        User user = userMapper.selectById(userId);
+        String salt = user.getSalt();
+        password = password + salt;
+        return userMapper.updatePassword(userId,CommunityUtil.md5(password));
+    }
+
+    }
 
 }
+
 
 
 
