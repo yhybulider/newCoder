@@ -25,7 +25,7 @@ public class LoginTicketInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        //从Request中取出Cookie
+        //从Request中取出Cookie 调用方法得到cookie
         String ticket = CookieUtil.getCookie(request,"ticket");
         if(ticket!=null){
             //获取凭证
@@ -33,7 +33,9 @@ public class LoginTicketInterceptor implements HandlerInterceptor {
             //判断凭证是否有效
             if(loginTicket!=null&&loginTicket.getStatus()==0
                     &&loginTicket.getExpired().after(new Date())){
+                // 根据凭证去查询用户
                 User user = userService.FindUserById(loginTicket.getUserId());
+                // 存到线程中的hostHolder
                 hostHolder.setUser(user);
             }
 
@@ -44,6 +46,7 @@ public class LoginTicketInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        // 在hostHolder中得到当前线程的用户信息
         User user = hostHolder.getUser();
         if(user!=null&&modelAndView!=null){
             modelAndView.addObject("loginUser",user);

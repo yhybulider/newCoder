@@ -3,7 +3,7 @@ package com.whllow.community.entity;
 import java.util.Date;
 
 public class LoginTicket {
-
+    // 定义好初始量
     private int id;
     private int userId;
     private String ticket;

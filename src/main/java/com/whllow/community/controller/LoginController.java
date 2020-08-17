@@ -27,13 +27,13 @@ import java.util.Map;
 
 @Controller
 public class LoginController implements CommunityConstant {
-
+    // 用来打日志的
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     @Value("${server.servlet.context-path}")
     private String contextPath;
 
-
+    // 注入kaptchaProducer
     @Autowired
     private Producer kaptchaProducer;
 
@@ -85,7 +85,7 @@ public class LoginController implements CommunityConstant {
         }
         return "/site/operate-result";
     }
-
+    // 获取数据的方法
     @RequestMapping(path = "/kaptcha",method = RequestMethod.GET)
     public void getKaptcha(HttpServletResponse response, HttpSession session){
         //创建一个验证码
@@ -95,9 +95,10 @@ public class LoginController implements CommunityConstant {
         //将验证码存储在服务器中
         session.setAttribute("kaptcha",text);
         System.out.println(text);
-        //输出图片到服务器
+        //输出图片到服务器 声明是png
         response.setContentType("image/png");
         try {
+            // 利用输出流
             OutputStream os = response.getOutputStream();
             ImageIO.write(image,"png",os);
         } catch (IOException e) {
@@ -112,6 +113,7 @@ public class LoginController implements CommunityConstant {
                         String username,String password,String code,boolean rememberme,
                         HttpSession session, HttpServletResponse response
     ){
+        //验证码检查
         String kaptcha = (String)session.getAttribute("kaptcha");
         if(StringUtils.isBlank(code)||StringUtils.isBlank(kaptcha)||!kaptcha.equalsIgnoreCase(code)){
             model.addAttribute("codeMsg","验证码不正确");

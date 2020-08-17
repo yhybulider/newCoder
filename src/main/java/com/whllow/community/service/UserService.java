@@ -24,16 +24,14 @@ import java.util.Random;
 public class UserService implements CommunityConstant {
 
 
-
-
 // dao层对象
 
     @Autowired
     private UserMapper userMapper;
-// 邮件客户端
+    // 邮件客户端
     @Autowired
     private MailClient mailClient;
-// 模板引擎
+    // 模板引擎
     @Autowired
     private TemplateEngine templateEngine;
 
@@ -104,6 +102,7 @@ public class UserService implements CommunityConstant {
 
         return map;
     }
+
     //
     //激活码查询，错或者对都应该有状态码返回
     public int activation(int userId, String code) {
@@ -154,6 +153,7 @@ public class UserService implements CommunityConstant {
         loginTicket.setUserId(user.getId());
         loginTicket.setTicket(CommunityUtil.generateUUID());
         loginTicket.setStatus(0);
+        // 当前时间往后推
         loginTicket.setExpired(new Date(System.currentTimeMillis() + expiredSeconds * 1000));
         loginTicketMapper.insertLoginTicket(loginTicket);
         map.put("ticket", loginTicket.getTicket());
@@ -168,21 +168,21 @@ public class UserService implements CommunityConstant {
         return loginTicketMapper.selectByTicket(ticket);
     }
 
-    public int uploadHeader(int userId,String headerUrl){
-        return userMapper.updateHeader(userId,headerUrl);
+    public int uploadHeader(int userId, String headerUrl) {
+        return userMapper.updateHeader(userId, headerUrl);
     }
 
 
-    public int updatePassword(int userId,String password){
+    public int updatePassword(int userId, String password) {
         User user = userMapper.selectById(userId);
         String salt = user.getSalt();
         password = password + salt;
-        return userMapper.updatePassword(userId,CommunityUtil.md5(password));
-    }
-
+        return userMapper.updatePassword(userId, CommunityUtil.md5(password));
     }
 
 }
+
+
 
 
 

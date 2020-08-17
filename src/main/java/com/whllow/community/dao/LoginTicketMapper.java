@@ -2,10 +2,12 @@ package com.whllow.community.dao;
 
 import com.whllow.community.entity.LoginTicket;
 import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Component;
 
+@Component
 @Mapper
 public interface LoginTicketMapper {
-
+    // expired是过期时间
     @Insert({
             "insert into login_ticket(user_id,ticket,status,expired) ",
             "values(#{userId},#{ticket},#{status},#{expired})"

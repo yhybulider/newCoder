@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 
 /**
+ * 持有用户信息
  * 用于储存user
  * 取代使用Session，在多线程中安全存储user
  * */

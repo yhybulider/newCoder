@@ -89,6 +89,7 @@ public class UserController {
     public void getHeader(@PathVariable("fileName") String fileName, HttpServletResponse response){
 
         fileName = uploadPath + "/" +fileName;
+        // 获取文件名字
         String suffix = fileName.substring(fileName.lastIndexOf("."));
         response.setContentType("image/" + suffix);
         try(
