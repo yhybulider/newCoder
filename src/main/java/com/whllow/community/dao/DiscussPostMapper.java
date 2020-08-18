@@ -15,4 +15,11 @@ public interface DiscussPostMapper {
     //在使用动态拼接（使用<if>）的SQL语句   并且方法参数有且只有一个时，一定要起别名
     int selectDiscussPostRows(@Param("userId") int userId);
 
+
+    int insertDiscussPost(DiscussPost discussPost);
+
+    DiscussPost selectDiscussPostById(int id);
+
+
+
 }
