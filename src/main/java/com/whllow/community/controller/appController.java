@@ -7,8 +7,11 @@ import com.whllow.community.entity.DiscussPost;
 import com.whllow.community.entity.LoginTicket;
 import com.whllow.community.entity.User;
 import com.whllow.community.service.AppServer;
+import com.whllow.community.util.CommunityUtil;
 import com.whllow.community.util.MailClient;
+import com.whllow.community.util.SensitiveFiliter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,14 +20,31 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.sound.midi.Soundbank;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
 
-//@Controller
+@Controller
 @RequestMapping("/hello")
 public class appController {
 
+    @Autowired
+    private SensitiveFiliter sensitiveFiliter;
+
+    @RequestMapping("/filiter")
+    @ResponseBody
+    public String b(){
+        String text = "这里可以赌博，可以吸毒，可以嫖娼，可以开票";
+        String str = sensitiveFiliter.Filiter(text);
+        System.out.println(str);
+
+        text = "这里可以☆赌☆博☆，可以☆吸☆毒☆，可以☆嫖☆娼☆，可以☆开☆票☆";
+        str = sensitiveFiliter.Filiter(text);
+        System.out.println(str);
+
+        return "suceess";
+    }
 
     @RequestMapping("/easy")
     @ResponseBody
@@ -294,6 +314,16 @@ public class appController {
         System.out.println(session.getAttribute("name"));
         return "succeed in get session";
     }
+
+
+    @RequestMapping(path = "/ajax",method = RequestMethod.POST)
+    @ResponseBody
+    public String getAjax(String name,int age){
+        System.out.println(name);
+        System.out.println(age);
+        return CommunityUtil.getJSONSrting(0,"succeed in doing");
+    }
+
 
 
 }
