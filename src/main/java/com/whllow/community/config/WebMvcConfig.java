@@ -33,7 +33,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(loginTicketInterceptor)
                 .excludePathPatterns("/**/*.css","/**/*.js","/**/*.png","/**/*.jpg",
                         "/**/*.jpeg");
-        registry.addInterceptor(loginRequiredInterceptor)
+        registry.addInterceptor(loginRequiredInterceptor)//是下面的静态资源就不拦截
                 .excludePathPatterns("/**/*.css","/**/*.js","/**/*.png","/**/*.jpg",
                         "/**/*.jpeg");
 
