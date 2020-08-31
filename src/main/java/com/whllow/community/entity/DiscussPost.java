@@ -1,7 +1,7 @@
 package com.whllow.community.entity;
 
 import java.util.Date;
-
+// 这是一个博客类，包含一个博客的各种内容
 public class DiscussPost {
 
     private int id;
