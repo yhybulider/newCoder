@@ -17,5 +17,7 @@ public interface DiscussPostMapper {
     int selectDiscussPostRows(@Param("userId") int userId);
 
     int insertDiscussPost(DiscussPost discussPost);
+    // 根據id來查询帖子详情
+    DiscussPost selectDiscussPostById(int id);
 
 }

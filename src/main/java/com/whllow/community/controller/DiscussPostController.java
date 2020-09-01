@@ -3,14 +3,13 @@ package com.whllow.community.controller;
 import com.whllow.community.entity.DiscussPost;
 import com.whllow.community.entity.User;
 import com.whllow.community.service.DiscussPostService;
+import com.whllow.community.service.UserService;
 import com.whllow.community.util.CommunityUtil;
 import com.whllow.community.util.HostHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
@@ -21,6 +20,8 @@ public class DiscussPostController {
     private DiscussPostService discussPostService;
     @Autowired
     private HostHolder hostHolder;
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(path = "/add",method = RequestMethod.POST)
     @ResponseBody
@@ -39,5 +40,19 @@ public class DiscussPostController {
         discussPostService.addDiscussPost(post);
         // 报错的情况,将来统一处理.
         return CommunityUtil.getJSONString(0, "发布成功!");
+    }
+
+    //根据id查询帖子详情   ?
+    @RequestMapping(path = "/detail/{discussPostId}",method = RequestMethod.GET)
+    public String getDisscussPost(@PathVariable("discussPostId") int discussPostId, Model model) {
+        // 帖子
+        DiscussPost post = discussPostService.findDisscussPostById(discussPostId);
+        model.addAttribute("post",post);
+        // 作者
+        User user = userService.FindUserById(discussPostId);
+        model.addAttribute("user",user);
+
+        return "/site/discuss-detail";
+
     }
 }

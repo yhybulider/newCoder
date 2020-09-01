@@ -24,7 +24,7 @@ public class DiscussPostService {
     public int FindDiscussPostRows(int userId){
         return discussPostMapper.selectDiscussPostRows(userId);
     }
-
+    // 增加帖子的方法
     public int addDiscussPost(DiscussPost post){
         if (post == null){
             throw new IllegalArgumentException("参数不能为空");
@@ -40,5 +40,8 @@ public class DiscussPostService {
 
         return discussPostMapper.insertDiscussPost(post);
     }
-
+    //根据id查询帖子详情
+    public DiscussPost findDisscussPostById(int id){
+        return discussPostMapper.selectDiscussPostById(id);
+    }
 }
