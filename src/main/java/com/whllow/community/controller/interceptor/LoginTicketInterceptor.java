@@ -34,7 +34,7 @@ public class LoginTicketInterceptor implements HandlerInterceptor {
             if(loginTicket!=null&&loginTicket.getStatus()==0
                     &&loginTicket.getExpired().after(new Date())){
                 // 根据凭证去查询用户
-                User user = userService.FindUserById(loginTicket.getUserId());
+                User user = userService.findUserById(loginTicket.getUserId());
                 // 存到线程中的hostHolder
                 hostHolder.setUser(user);
             }

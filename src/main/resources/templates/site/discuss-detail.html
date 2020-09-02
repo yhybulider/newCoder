@@ -105,7 +105,7 @@
 				<!-- 回帖数量 -->
 				<div class="row">
 					<div class="col-8">
-						<h6><b class="square"></b> <i>30</i>条回帖</h6>
+						<h6><b class="square"></b> <i th:text="${post.commentCount}">30</i>条回帖</h6>
 					</div>
 					<div class="col-4 text-right">
 						<a href="#replyform" class="btn btn-primary btn-sm">&nbsp;&nbsp;回&nbsp;&nbsp;帖&nbsp;&nbsp;</a>
@@ -114,20 +114,20 @@
 				<!-- 回帖列表 -->
 				<ul class="list-unstyled mt-4">
 					<!-- 第1条回帖 -->
-					<li class="media pb-3 pt-3 mb-3 border-bottom">
+					<li class="media pb-3 pt-3 mb-3 border-bottom" th:each="cvo:${comments}">
 						<a href="profile.html">
 							<img src="http://images.nowcoder.com/head/2t.png" class="align-self-start mr-4 rounded-circle user-header" alt="用户头像" >
 						</a>
 						<div class="media-body">
 							<div class="mt-0">
-								<span class="font-size-12 text-success">掉脑袋切切</span>
+								<span class="font-size-12 text-success" th:utext="${cvo.user.uesrname}">掉脑袋切切</span>
 								<span class="badge badge-secondary float-right floor">1#</span>
 							</div>
 							<div class="mt-2">
 								这开课时间是不是有点晚啊。。。
 							</div>
 							<div class="mt-4 text-muted font-size-12">
-								<span>发布于 <b>2019-04-15 15:32:18</b></span>
+								<span>发布于 <b th:text="${#dates.format(cvo.comment.createTime,'yyyy-MM-dd HH:mm:ss')}">2019-04-15 15:32:18</b></span>
 								<ul class="d-inline float-right">
 									<li class="d-inline ml-2"><a href="#" class="text-primary">赞(1)</a></li>
 									<li class="d-inline ml-2">|</li>
@@ -147,7 +147,7 @@
 										<ul class="d-inline float-right">
 											<li class="d-inline ml-2"><a href="#" class="text-primary">赞(1)</a></li>
 											<li class="d-inline ml-2">|</li>
-											<li class="d-inline ml-2"><a href="#huifu01" data-toggle="collapse" class="text-primary">回复</a></li>
+											<li class="d-inline ml-2"><a th:href="|#huifu-${rvoStat.count}|" data-toggle="collapse" class="text-primary">回复</a></li>
 										</ul>
 										<div id="huifu01" class="mt-4 collapse">
 											<div>
