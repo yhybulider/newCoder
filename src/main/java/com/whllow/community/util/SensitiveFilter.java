@@ -78,7 +78,7 @@ public class SensitiveFilter {
      * @Author: yhy
      * @Date: 2020/8/18
      **/
-    public String filiter(String text) {
+    public String filter(String text) {
         if (StringUtils.isBlank(text)) {
             return null;
         }

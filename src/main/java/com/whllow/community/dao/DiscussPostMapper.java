@@ -1,5 +1,6 @@
 package com.whllow.community.dao;
 
+import com.whllow.community.entity.Comment;
 import com.whllow.community.entity.DiscussPost;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -19,5 +20,8 @@ public interface DiscussPostMapper {
     int insertDiscussPost(DiscussPost discussPost);
     // 根據id來查询帖子详情
     DiscussPost selectDiscussPostById(int id);
+    // 更新用户评论数量
+    int updateCommentCount(int id, int commentCount);
+
 
 }

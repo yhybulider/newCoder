@@ -35,14 +35,18 @@ public class DiscussPostService {
         post.setContent(HtmlUtils.htmlEscape(post.getContent()));
 
         //过滤敏感次
-        post.setTitle(sensitiveFilter.filiter(post.getContent()));
-        post.setContent(sensitiveFilter.filiter(post.getContent()));
+        post.setTitle(sensitiveFilter.filter(post.getContent()));
+        post.setContent(sensitiveFilter.filter(post.getContent()));
 
         return discussPostMapper.insertDiscussPost(post);
     }
     //根据id查询帖子详情
     public DiscussPost findDiscussPostById(int id){
         return discussPostMapper.selectDiscussPostById(id);
+    }
+    // 返回帖子评论更新的次数
+    public int updateCommentCount(int id,int commentCount){
+        return discussPostMapper.updateCommentCount(id,commentCount);
     }
 
 
