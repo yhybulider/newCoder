@@ -52,7 +52,7 @@ public class DiscussPostController {
 
 
     // 显示帖子评论和回复
-    @RequestMapping(path = "/detail/{discussPostid}", method = RequestMethod.GET)
+    @RequestMapping(path = "/detail/{discussPostId}", method = RequestMethod.GET)
     public String getDiscussPost(@PathVariable("discussPostId") int discussPostId, Model model, Page page) {
         // 帖子
         DiscussPost post = discussPostService.findDiscussPostById(discussPostId);
