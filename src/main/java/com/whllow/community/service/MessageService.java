@@ -2,8 +2,10 @@ package com.whllow.community.service;
 
 import com.whllow.community.dao.MessageMapper;
 import com.whllow.community.entity.Message;
+import com.whllow.community.util.SensitiveFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.HtmlUtils;
 
 
 import java.util.List;
@@ -11,6 +13,8 @@ import java.util.List;
 public class MessageService {
     @Autowired
     private MessageMapper messageMapper;
+    @Autowired
+    private SensitiveFilter sensitiveFilter;
 // 获取消息，通过userid去获得
     public List<Message> findConversations(int userId,int offset, int limit){
         return messageMapper.selectConversations(userId,offset,limit);
@@ -30,6 +34,16 @@ public class MessageService {
 
     public int findLetterUnreadCount(int userId, String conversationId) {
         return messageMapper.selectLetterUnreadCount(userId, conversationId);
+    }
+
+    public int addMessage(Message message) {
+        message.setContent(HtmlUtils.htmlEscape(message.getContent()));
+        message.setContent(sensitiveFilter.filter(message.getContent()));
+        return messageMapper.insertMessage(message);
+    }
+
+    public int readMessage(List<Integer> ids) {
+        return messageMapper.updateStatus(ids, 1);
     }
 
 }
