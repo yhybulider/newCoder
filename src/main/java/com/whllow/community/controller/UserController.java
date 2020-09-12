@@ -2,6 +2,8 @@ package com.whllow.community.controller;
 
 import com.whllow.community.annotation.LoginRequired;
 import com.whllow.community.entity.User;
+import com.whllow.community.service.FollowService;
+import com.whllow.community.service.LikeService;
 import com.whllow.community.service.UserService;
 import com.whllow.community.util.CommunityUtil;
 import com.whllow.community.util.HostHolder;
@@ -10,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+
+import static com.whllow.community.util.CommunityConstant.ENTITY_TYPE_USER;
+
 // 设置用户信息功能的，包括设置头像等，换头像
 @Controller
 @RequestMapping("/user")
@@ -42,6 +46,12 @@ public class UserController {
 
     @Autowired
     private HostHolder hostHolder;
+
+    @Autowired
+    private LikeService likeService;
+
+    @Autowired
+    private FollowService followService;
 
     @LoginRequired
     @RequestMapping(path = "/setting",method = RequestMethod.GET)
@@ -109,7 +119,6 @@ public class UserController {
 
     }
 
-
     @LoginRequired
     @RequestMapping(path = "/updatePassword",method = RequestMethod.POST)
     public String updatePassword(Model model,
@@ -146,6 +155,39 @@ public class UserController {
 
 
     }
+
+
+    // 个人主页
+    // 进入到个人主页 查询各种信息，点赞 关注 粉丝
+    @RequestMapping(path = "/profile/{userId}", method = RequestMethod.GET)
+    public String getProfilePage(@PathVariable("userId") int userId, Model model) {
+        User user = userService.findUserById(userId);
+        if (user == null) {
+            throw new RuntimeException("该用户不存在!");
+        }
+
+        // 用户
+        model.addAttribute("user", user);
+        // 点赞数量
+        int likeCount = likeService.findUserLikeCount(userId);
+        model.addAttribute("likeCount", likeCount);
+
+        // 关注数量
+        long followeeCount = followService.findFolloweeCount(userId, ENTITY_TYPE_USER);
+        model.addAttribute("followeeCount", followeeCount);
+        // 粉丝数量
+        long followerCount = followService.findFollowerCount(ENTITY_TYPE_USER, userId);
+        model.addAttribute("followerCount", followerCount);
+        // 是否已关注
+        boolean hasFollowed = false;
+        if (hostHolder.getUser() != null) {
+            hasFollowed = followService.hasFollowed(hostHolder.getUser().getId(), ENTITY_TYPE_USER, userId);
+        }
+        model.addAttribute("hasFollowed", hasFollowed);
+
+        return "/site/profile";
+    }
+
 
 
 

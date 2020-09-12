@@ -32,7 +32,7 @@ public class CommunityUtil {
 
     }
 
-    private static String getJSONString(int code, String msg, Map<String, Object> map) {
+    public static String getJSONString(int code, String msg, Map<String, Object> map) {
         JSONObject json = new JSONObject();
         json.put("code", code);
         json.put("msg", msg);
