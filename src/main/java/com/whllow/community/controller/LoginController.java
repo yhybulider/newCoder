@@ -4,11 +4,14 @@ import com.google.code.kaptcha.Producer;
 import com.whllow.community.entity.CommunityConstant;
 import com.whllow.community.entity.User;
 import com.whllow.community.service.UserService;
+import com.whllow.community.util.CommunityUtil;
+import com.whllow.community.util.RedisKeyUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -24,6 +27,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Controller
 public class LoginController implements CommunityConstant {
@@ -39,6 +43,9 @@ public class LoginController implements CommunityConstant {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
 
     @RequestMapping(path = "/register" ,method = RequestMethod.GET)
@@ -93,8 +100,20 @@ public class LoginController implements CommunityConstant {
         BufferedImage image = kaptchaProducer.createImage(text);
 
         //将验证码存储在服务器中
-        session.setAttribute("kaptcha",text);
-        System.out.println(text);
+        //session.setAttribute("kaptcha",text);
+        //System.out.println(text);
+        // 将验证码放在session
+        //session.setAttribute("kaptcha",text);
+         // 新方案 -- 使用redis存储验证码 优化
+        String kaptchaOwner = CommunityUtil.generateUUID();
+        Cookie cookie = new Cookie("kaptchaOwner", kaptchaOwner);
+        cookie.setMaxAge(6); // cookie存活时间
+        cookie.setPath(contextPath); // 整个项目路径
+        response.addCookie(cookie); // 返回给服务器
+        // 验证码存入redis
+        String redisKey = RedisKeyUtil.getKaptchaKey(kaptchaOwner);
+        redisTemplate.opsForValue().set(redisKey,text,60, TimeUnit.SECONDS);
+
         //输出图片到服务器 声明是png
         response.setContentType("image/png");
         try {
@@ -119,6 +138,7 @@ public class LoginController implements CommunityConstant {
             model.addAttribute("codeMsg","验证码不正确");
             return "/site/login";
         }
+        // 检查账号、密码
         int expiredSeconds = rememberme?REMEMBER_EXPIRED_SECONDS:DEFAULT_EXPIRED_SECONDS;
         Map<String,Object> map = userService.login(username,password,expiredSeconds);
         if(map.containsKey("ticket")){

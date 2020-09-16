@@ -44,12 +44,12 @@ public class FollowService implements CommunityConstant {
             public Object execute(RedisOperations operations) throws DataAccessException {
                 String followeeKey = RedisKeyUtil.getFolloweeKey(userId, entityType);
                 String followerKey = RedisKeyUtil.getFollowerKey(entityType, entityId);
-
+        // 开启事务
                 operations.multi();
 
                 operations.opsForZSet().remove(followeeKey, entityId);
                 operations.opsForZSet().remove(followerKey, userId);
-
+        // 执行事务
                 return operations.exec();
             }
         });

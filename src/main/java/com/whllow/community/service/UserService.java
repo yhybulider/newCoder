@@ -165,7 +165,7 @@ public class UserService implements CommunityConstant {
         map.put("ticket", loginTicket.getTicket());
         return map;
     }
-
+// 更换redis登录凭证
     public void logout(String ticket) {
         loginTicketMapper.updateStatus(ticket, 1);
     }
